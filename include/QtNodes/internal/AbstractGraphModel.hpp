@@ -67,6 +67,8 @@ public:
    */
     virtual NodeId addNode(QString const nodeType = QString()) = 0;
 
+    virtual bool supportsDynamicConnections() const { return true; }
+
     /// Model decides if a conection with a given connection Id possible.
     /**
    * The default implementation compares corresponding data types.

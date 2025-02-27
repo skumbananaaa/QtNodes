@@ -181,50 +181,52 @@ void NodeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     AbstractNodeGeometry &geometry = nodeScene()->nodeGeometry();
 
-    for (PortType portToCheck : {PortType::In, PortType::Out}) {
-        QPointF nodeCoord = sceneTransform().inverted().map(event->scenePos());
+    if (_graphModel.supportsDynamicConnections()) {
+        for (PortType portToCheck : {PortType::In, PortType::Out}) {
+            QPointF nodeCoord = sceneTransform().inverted().map(event->scenePos());
 
-        PortIndex const portIndex = geometry.checkPortHit(_nodeId, portToCheck, nodeCoord);
+            PortIndex const portIndex = geometry.checkPortHit(_nodeId, portToCheck, nodeCoord);
 
-        if (portIndex == InvalidPortIndex)
-            continue;
+            if (portIndex == InvalidPortIndex)
+                continue;
 
-        auto const &connected = _graphModel.connections(_nodeId, portToCheck, portIndex);
+            auto const &connected = _graphModel.connections(_nodeId, portToCheck, portIndex);
 
-        // Start dragging existing connection.
-        if (!connected.empty() && portToCheck == PortType::In) {
-            auto const &cnId = *connected.begin();
+            // Start dragging existing connection.
+            if (!connected.empty() && portToCheck == PortType::In) {
+                auto const &cnId = *connected.begin();
 
-            // Need ConnectionGraphicsObject
+                // Need ConnectionGraphicsObject
 
-            NodeConnectionInteraction interaction(*this,
-                                                  *nodeScene()->connectionGraphicsObject(cnId),
-                                                  *nodeScene());
+                NodeConnectionInteraction interaction(*this,
+                                                    *nodeScene()->connectionGraphicsObject(cnId),
+                                                    *nodeScene());
 
-            if (_graphModel.detachPossible(cnId))
-                interaction.disconnect(portToCheck);
-        } else // initialize new Connection
-        {
-            if (portToCheck == PortType::Out) {
-                auto const outPolicy = _graphModel
-                                           .portData(_nodeId,
-                                                     portToCheck,
-                                                     portIndex,
-                                                     PortRole::ConnectionPolicyRole)
-                                           .value<ConnectionPolicy>();
+                if (_graphModel.detachPossible(cnId))
+                    interaction.disconnect(portToCheck);
+            } else // initialize new Connection
+            {
+                if (portToCheck == PortType::Out) {
+                    auto const outPolicy = _graphModel
+                                            .portData(_nodeId,
+                                                        portToCheck,
+                                                        portIndex,
+                                                        PortRole::ConnectionPolicyRole)
+                                            .value<ConnectionPolicy>();
 
-                if (!connected.empty() && outPolicy == ConnectionPolicy::One) {
-                    for (auto &cnId : connected) {
-                        _graphModel.deleteConnection(cnId);
+                    if (!connected.empty() && outPolicy == ConnectionPolicy::One) {
+                        for (auto &cnId : connected) {
+                            _graphModel.deleteConnection(cnId);
+                        }
                     }
-                }
-            } // if port == out
+                } // if port == out
 
-            ConnectionId const incompleteConnectionId = makeIncompleteConnectionId(_nodeId,
-                                                                                   portToCheck,
-                                                                                   portIndex);
+                ConnectionId const incompleteConnectionId = makeIncompleteConnectionId(_nodeId,
+                                                                                    portToCheck,
+                                                                                    portIndex);
 
-            nodeScene()->makeDraftConnection(incompleteConnectionId);
+                nodeScene()->makeDraftConnection(incompleteConnectionId);
+            }
         }
     }
 
