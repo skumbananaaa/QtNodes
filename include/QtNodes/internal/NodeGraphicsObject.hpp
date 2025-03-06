@@ -24,7 +24,7 @@ public:
 public:
     NodeGraphicsObject(BasicGraphicsScene &scene, NodeId node);
 
-    ~NodeGraphicsObject() override = default;
+    ~NodeGraphicsObject() override;
 
 public:
     AbstractGraphModel &graphModel() const;
