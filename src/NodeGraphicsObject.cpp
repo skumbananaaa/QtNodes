@@ -24,11 +24,7 @@ NodeGraphicsObject::NodeGraphicsObject(BasicGraphicsScene &scene, NodeId nodeId)
     , _nodeState(*this)
     , _proxyWidget(nullptr)
 {
-    qDebug() << "Creating " << this << " with nodeId " << _nodeId;
-
     scene.addItem(this);
-
-    qDebug() << "Added to scene " << this;
 
     setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
@@ -68,31 +64,10 @@ NodeGraphicsObject::NodeGraphicsObject(BasicGraphicsScene &scene, NodeId nodeId)
         if (_nodeId == nodeId)
             setLockedState();
     });
-
-    TA BORT DEN HÄR SKITEN OCH SE TILL ATT WIDGETEN FINNS NÄR CONSTRUCTOR ANROPAS
-    connect(&_graphModel, &AbstractGraphModel::nodeWidgetAdded, [this](NodeId const nodeId) {
-        if (_nodeId != nodeId)
-        {
-            return;
-        }
-
-        if (_proxyWidget)
-        {
-            _proxyWidget->setWidget(nullptr);
-            _proxyWidget->deleteLater();
-            _proxyWidget = nullptr;
-        }
-
-        embedQWidget();
-    });
 }
 
 NodeGraphicsObject::~NodeGraphicsObject()
 {
-    qDebug() << "Deleting " << this;
-
-    _graphModel.disconnect(this);
-
     if (_proxyWidget)
     {
         _proxyWidget->setWidget(nullptr);

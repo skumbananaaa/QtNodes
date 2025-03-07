@@ -234,8 +234,6 @@ Q_SIGNALS:
 
     void nodeCreated(NodeId const nodeId);
 
-    void nodeWidgetAdded(NodeId const nodeId);
-
     void nodeDeleted(NodeId const nodeId);
 
     void nodeUpdated(NodeId const nodeId);
