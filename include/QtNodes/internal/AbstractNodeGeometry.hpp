@@ -61,7 +61,7 @@ public:
     virtual QPointF captionPosition(NodeId const nodeId) const = 0;
 
     /// Caption rect is needed for estimating the total node size.
-    virtual QRectF captionRect(NodeId const nodeId) const = 0;
+    virtual QRect captionRect(NodeId const nodeId) const = 0;
 
     /// Position for an embedded widget. Return any value if you don't embed.
     virtual QPointF widgetPosition(NodeId const nodeId) const = 0;

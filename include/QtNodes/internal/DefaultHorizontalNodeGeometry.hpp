@@ -28,7 +28,7 @@ public:
                              PortIndex const PortIndex) const override;
     QPointF captionPosition(NodeId const nodeId) const override;
 
-    QRectF captionRect(NodeId const nodeId) const override;
+    QRect captionRect(NodeId const nodeId) const override;
 
     QPointF widgetPosition(NodeId const nodeId) const override;
 
@@ -50,7 +50,7 @@ private:
     // constness of the Node.
 
     mutable unsigned int _portSize;
-    unsigned int _portSpasing;
+    unsigned int _portSpacing;
     mutable QFontMetrics _fontMetrics;
     mutable QFontMetrics _boldFontMetrics;
 };

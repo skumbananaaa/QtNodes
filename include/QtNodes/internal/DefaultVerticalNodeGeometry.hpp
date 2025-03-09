@@ -29,30 +29,29 @@ public:
 
     QPointF captionPosition(NodeId const nodeId) const override;
 
-    QRectF captionRect(NodeId const nodeId) const override;
+    QRect captionRect(NodeId const nodeId) const override;
 
     QPointF widgetPosition(NodeId const nodeId) const override;
 
     QRect resizeHandleRect(NodeId const nodeId) const override;
 
 private:
-    QRectF portTextRect(NodeId const nodeId,
-                        PortType const portType,
-                        PortIndex const portIndex) const;
-    /// Finds
-    unsigned int maxHorizontalPortsExtent(NodeId const nodeId) const;
+    QString portText(NodeId const nodeId, PortType const portType, PortIndex const portIndex) const;
+    QRect portTextRect(NodeId const nodeId, PortType const portType, PortIndex const portIndex) const;
+    uint32_t portBoundingTextHeight(NodeId const nodeId, PortType const portType) const;
+    uint32_t maxPortsTextAdvance(NodeId const nodeId, PortType const portType) const;
 
-    unsigned int maxPortsTextAdvance(NodeId const nodeId, PortType const portType) const;
-
-    unsigned int portCaptionsHeight(NodeId const nodeId, PortType const portType) const;
 
 private:
+    static constexpr uint32_t _internalMargin = 10;
+    static constexpr uint32_t _internalPadding = 5;
+    static constexpr uint32_t _resizeHandleWidth = 7;
+
     // Some variables are mutable because we need to change drawing
     // metrics corresponding to fontMetrics but this doesn't change
     // constness of the Node.
 
-    mutable unsigned int _portSize;
-    unsigned int _portSpasing;
+    uint32_t _portSize;
     mutable QFontMetrics _fontMetrics;
     mutable QFontMetrics _boldFontMetrics;
 };

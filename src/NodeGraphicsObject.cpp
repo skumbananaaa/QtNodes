@@ -86,10 +86,10 @@ BasicGraphicsScene *NodeGraphicsObject::nodeScene() const
 
 void NodeGraphicsObject::updateQWidgetEmbedPos()
 {
-  if (_proxyWidget) {
-    AbstractNodeGeometry &geometry = nodeScene()->nodeGeometry();
-    _proxyWidget->setPos(geometry.widgetPosition(_nodeId));
-  }
+    if (_proxyWidget) {
+        AbstractNodeGeometry &geometry = nodeScene()->nodeGeometry();
+        _proxyWidget->setPos(geometry.widgetPosition(_nodeId));
+    }
 }
 
 void NodeGraphicsObject::embedQWidget()
@@ -102,13 +102,10 @@ void NodeGraphicsObject::embedQWidget()
 
         _proxyWidget->setWidget(w);
 
-        _proxyWidget->setPreferredWidth(5);
-
         geometry.recomputeSize(_nodeId);
 
         if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag) {
-            unsigned int widgetHeight = geometry.size(_nodeId).height()
-                                        - geometry.captionRect(_nodeId).height();
+            unsigned int widgetHeight = geometry.size(_nodeId).height() - geometry.captionRect(_nodeId).height();
 
             // If the widget wants to use as much vertical space as possible, set
             // it to have the geom's equivalentWidgetHeight.
