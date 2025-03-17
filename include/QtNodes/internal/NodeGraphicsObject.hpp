@@ -52,6 +52,8 @@ public:
 
     void updateQWidgetEmbedPos();
 
+    void updateLockedState();
+
 protected:
     void paint(QPainter *painter,
                QStyleOptionGraphicsItem const *option,
@@ -77,8 +79,6 @@ protected:
 
 private:
     void embedQWidget();
-
-    void setLockedState();
 
 private:
     NodeId _nodeId;

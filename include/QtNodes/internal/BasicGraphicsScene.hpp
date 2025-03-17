@@ -154,6 +154,8 @@ public Q_SLOTS:
 
     void onNodeUpdated(NodeId const nodeId);
 
+    void onNodeFlagsUpdated(NodeId const nodeId);
+
     void onNodeClicked(NodeId const nodeId);
 
     void onModelReset();

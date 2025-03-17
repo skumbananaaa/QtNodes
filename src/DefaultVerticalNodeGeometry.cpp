@@ -113,7 +113,7 @@ QPointF DefaultVerticalNodeGeometry::portPosition(NodeId const nodeId, PortType 
         break;
     }
 
-    uint32_t portWidth = maxPortsTextAdvance(nodeId, portType);
+    uint32_t portWidth = std::max(maxPortsTextAdvance(nodeId, portType), _minPortDistance);
     uint32_t totalCombinedPortsWidth = portWidth * (nPorts - 1) + _internalPadding * (nPorts - 2);
     x = (size.width() - totalCombinedPortsWidth) * 0.5f + portIndex * (portWidth + _internalPadding);
 

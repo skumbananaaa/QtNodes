@@ -29,7 +29,7 @@ NodeGraphicsObject::NodeGraphicsObject(BasicGraphicsScene &scene, NodeId nodeId)
     setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
 
-    setLockedState();
+    updateLockedState();
 
     setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
@@ -59,11 +59,6 @@ NodeGraphicsObject::NodeGraphicsObject(BasicGraphicsScene &scene, NodeId nodeId)
     QPointF const pos = _graphModel.nodeData<QPointF>(_nodeId, NodeRole::Position);
 
     setPos(pos);
-
-    connect(&_graphModel, &AbstractGraphModel::nodeFlagsUpdated, [this](NodeId const nodeId) {
-        if (_nodeId == nodeId)
-            setLockedState();
-    });
 }
 
 NodeGraphicsObject::~NodeGraphicsObject()
@@ -121,7 +116,7 @@ void NodeGraphicsObject::embedQWidget()
     }
 }
 
-void NodeGraphicsObject::setLockedState()
+void NodeGraphicsObject::updateLockedState()
 {
     NodeFlags flags = _graphModel.nodeFlags(_nodeId);
 

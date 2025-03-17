@@ -46,6 +46,7 @@ private:
     static constexpr uint32_t _internalMargin = 10;
     static constexpr uint32_t _internalPadding = 5;
     static constexpr uint32_t _resizeHandleWidth = 7;
+    static constexpr uint32_t _minPortDistance = 35;
 
     // Some variables are mutable because we need to change drawing
     // metrics corresponding to fontMetrics but this doesn't change

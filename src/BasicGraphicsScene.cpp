@@ -74,6 +74,12 @@ BasicGraphicsScene::BasicGraphicsScene(AbstractGraphModel &graphModel, QObject *
             this,
             &BasicGraphicsScene::onNodeUpdated);
 
+
+    connect(&_graphModel,
+            &AbstractGraphModel::nodeFlagsUpdated, 
+            this,
+            &BasicGraphicsScene::onNodeFlagsUpdated);
+
     connect(this, &BasicGraphicsScene::nodeClicked, this, &BasicGraphicsScene::onNodeClicked);
 
     connect(&_graphModel, &AbstractGraphModel::modelReset, this, &BasicGraphicsScene::onModelReset);
@@ -296,6 +302,15 @@ void BasicGraphicsScene::onNodeUpdated(NodeId const nodeId)
         node->updateQWidgetEmbedPos();
         node->update();
         node->moveConnections();
+    }
+}
+
+void BasicGraphicsScene::onNodeFlagsUpdated(NodeId const nodeId)
+{
+    auto node = nodeGraphicsObject(nodeId);
+    if (node)
+    {
+        node->updateLockedState();
     }
 }
 
